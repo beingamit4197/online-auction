@@ -1,0 +1,237 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+a:visited	{	color: black;	}
+a:link  { color: black; text-decoration: none;}
+a:hover { color: #315389; }
+
+label	{	font-size: 18px;	}
+
+form
+{
+	border-width: 5px;
+	border-style: solid;
+	border-color: rgb(66, 149, 244);
+	border-radius: 10px;
+	align-content: center;
+	width: 80%;
+}
+
+table	{	margin: 25px;	}
+tr	{	text-align: center;	}
+td
+{
+	text-align: center;
+	font-size: 24px;
+	padding: 5px;
+}
+
+input[type="number"], input[type="text"], input[type="email"], input[type="password"], textarea
+{
+	font-size: 17px;
+	border-radius: 2px;
+	border-style: solid;
+	border-width: 2.5px;
+	border-color: black;
+	border-radius: 5px;
+	min-height: 30px;
+	min-width: 250px;
+	padding-left: 10px;
+	padding-right: 10px;
+	position: auto;
+}
+
+textarea	{	height: 5em;	}
+
+select
+{
+	font-size: 17px;
+	text-align-last:center;
+	border-style: solid;
+	border-width: 2.5px;
+	border-color: black;
+	border-radius: 5px;
+	min-height: 36px;
+	min-width: 200px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: white;
+}
+
+
+input[type="button"], input[type="submit"], input[type="file"]>input[type="button"]
+{
+	min-height: 37px;
+	min-width: 100px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-style: solid;
+	border-color: black;
+	border-radius: 5px;
+	background-color: white;
+	position: auto;
+}
+
+.tab1	{	text-align: right;	}
+.tab2	{	text-align: left;	}
+
+.header
+{
+	background-color: rgb(66, 149, 244);
+	border-style: solid;
+	border-color: black;
+}
+
+.head_link
+{
+	background-color: white;
+	border-style: solid;
+	display: inline-block;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin-top: -3px;
+}
+
+.frm
+{
+	width: 100%;
+}
+
+.title
+{
+	margin-left: 200px;
+	color: black;
+	font-size: 40px;
+	font-style: bold;
+}
+
+.title_
+{
+	display: inline-block;
+	font-size: 25px;
+	min-height: 35px;
+	padding: 3px;
+	margin-right: 5px;
+	margin-left: 5px;
+	margin-top: 5px;
+	margin-bottom: 3px;
+}
+
+.s_box	{	width: 450px;	}
+
+.login_
+{
+	display: inline-block;
+	float: right;
+	font-size: 20px;
+	margin-top: 0.60em;
+	margin-right: 1.25em;
+}
+
+.b1	{	background-color: lightgreen;	}
+.b2
+{
+	height:70px;
+}
+.b2>.header, .b2>span
+{
+	float:left;
+	width:25%;
+}
+
+.footer
+{
+	background-color: white;
+	text-align: center;
+	height: 40px;
+	padding: 5px;
+	margin-bottom: 1em;
+}
+
+.footer_
+{
+	margin-top: -1em;
+	margin-left: 1em;
+	margin-right: 1em;
+	display: inline-block;
+}
+
+.content
+{
+	margin-top: 60px;
+	margin-bottom: 50px;
+	min-height: 22.5em;
+}
+
+.dmenu
+{
+	font-size:20px;
+	text-align: center;
+	min-width: 175px;
+	max-width: 225px;
+	height: 25px;
+	background-color: white;
+	border-radius: 25px;
+	border-style: solid;
+	border-width: 3px;
+	border-color: black;
+	overflow: hidden;
+}
+
+.dmenu:hover	{	height:95px;	}
+
+.dmenu>a
+{
+	display: block;
+	color: black;
+	text-decoration: none;
+}
+
+.dmenu>a:hover	{	color: red;	}
+
+/*
+.active { background-color: lightgreen;  }
+
+.foot_support
+{
+	margin: 15px;
+	width: 75%;
+	border-style: double solid;
+	border-color: blue;
+	border-radius: 2em;
+	background-color: lightgrey;
+}
+
+.header img
+{
+	max-width: 25%;
+	max-height: 25%;
+	margin: 0.5em;
+	display: inline-block;
+	clear:	both;
+}
+
+.img_
+{
+	width: 5%;
+	background-color: yellow;
+	border-style: solid;
+	border-color: black;
+	display: inline-block;
+}
+*/

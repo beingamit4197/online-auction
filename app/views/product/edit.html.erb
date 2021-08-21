@@ -1,0 +1,53 @@
+<center>
+	<form action="/product/edit?id=<%= @p.id %>" method="POST" enctype="multipart/form-data">
+		<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+		<center>
+			<div class="box">
+				<div>
+					<% @counter = 1 %>
+					<% if(not @msg.nil?)  %>
+						<% @msg.each do |x| %>
+							<%= @counter %>
+							<%= x %>
+							<% @counter = @counter + 1 %>
+							<br/>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+
+			<table>
+				<tr><td colspan="2">Modify Product</td></tr>
+				<% @labels.size.times do |x| %>
+					<tr>
+						<td class="tab1"><%= label_tag @labels[x]+" : " %></td>
+						<td><%= text_field_tag @names[x],@vals[x] %></td>
+					</tr>
+				<% end %>
+
+					<tr>
+						<td class="tab1"><label for="category">Category : </label></td>
+						<td class="tab2">
+							
+				    		<select name="category"> 
+								<option value="Category"> Select Category</option>
+										<% @category.each do |cat| %>
+											 <option value="<%= cat.name %>"><%= cat.name %></option>
+										<% end -%>
+								 <option value=""></option>
+							</select>
+
+						</td>
+					</tr>
+
+					<tr>
+						<td class="tab1"><%= label_tag :pimage, "Product Image : " %></td>
+						<td class="tab2"><%= file_field_tag :pimage %></td>
+					</tr>
+
+					<tr><td colspan="2"><%= submit_tag "Modify Product" %></td></tr>
+			</table>
+		</center>
+	</form>
+</center>
+

@@ -1,0 +1,32 @@
+<center>
+	<div class="card">
+		<% if @users.size > 0 %>
+			<table style="margin: 0; max-width: 100%;">
+				<tr><td colspan="5"><h2>Registered Users</h2></td></tr>
+
+				<tr>
+				<td><b><u>Name</u></b></td>
+				<td><b><u>Gender</u></b></td>
+				<td><b><u>User Type</u></b></td>
+				<td><b><u>Email ID</u></b></td>
+				<td><b><u>Phone No</u></b></td>
+				</tr>
+		       
+				<% @users.each do |user| %>
+					<tr>
+						<td><%= user.name %></td>
+						<td><%= user.gender %></td>
+						<td><%= user.usertype %></td>
+						<td><%= user.email %></td>
+						<td><%= user.phno %></td>
+						<td><%= link_to "Go to Profile",controller:"main",action:"profile",id:user.id %></td>
+					</tr>	
+				<% end %>
+			</table>
+		<% else %>
+			<form>
+				<center><h2>No Users Registered...!!</h2></center>
+			</form>
+		<% end%>
+	</div>
+</center>

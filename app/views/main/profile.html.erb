@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    th
+    {
+    	padding-top: 50px;
+      padding-right: 30px;
+      padding-bottom: 50px;
+      padding-left: 80px
+    }
+
+    .card
+    {
+      text-align: center;
+      font-family: arial;
+      border: 2px;
+      border-radius: 10px;
+      max-width: 80%;
+      margin: auto;
+      background-color: white;
+      box-shadow: 0px 0px 20px black;
+    }
+
+    .card1
+    {
+      padding: 0.5em;
+      text-align: center;
+      font-family: arial;
+      border: 2px;
+      border-radius: 10px;
+      max-width: 90%;
+      margin: auto;
+      background-color: white;
+      box-shadow: 0px 0px 20px black;
+    }
+
+    .title 
+    {
+      color: grey;
+      font-size: 18px;
+    }
+
+    button 
+    {
+      border-style: solid;
+      border-color: black;
+      display: inline-block;
+      background-color: white;
+      text-align: center;
+      width: 100%;
+      font-size: 20px;
+      padding: 3px;
+    }
+
+    a
+    {
+      text-decoration: none;
+      font-size: 20px;
+      color: black;
+    }
+
+    button:hover, a:hover {
+      opacity: 0.7;
+    }
+  </style>
+
+</head>
+
+<body>
+<% user=@us %>
+<h2 style="text-align:center">User Profile Card</h2>
+
+<div class="card">
+  <center>
+    <table style="margin-bottom: 3em;">
+      <tr><td colspan="2"><h2><%= @us.name %></h2></td></tr>
+      <tr>
+        <td class="tab1">Email : </td>
+        <td class="tab2"><%= user.email %></td>
+      </tr>
+
+      <tr>
+        <td class="tab1">User Type : </td>
+        <td class="tab2"><%= user.usertype %></td>
+      </tr>
+
+      <tr>
+        <td class="tab1">Products Sold : </td>
+        <td class="tab2"><%= @co%></td>
+      </tr>
+
+      <tr>
+        <td class="tab1">Verified By : </td>
+        <td class="tab2">Admin => <%= user.verified_by %></td>
+      </tr>
+
+      <tr>
+        <td class="tab1">Member Since : </td>
+        <td class="tab2"><%= user.created_at %></td>
+      </tr>
+
+      <% if session[:userdata]["usertype"]=="admin" %>
+        <tr>
+          <td colspan="2">
+            <div style="border-style: solid; border-color: black;">
+            <a href="/admin/index">Admin Panel Home</a>
+          </div></td>
+        </tr>
+
+        <tr>
+          <td colspan="2">
+            <%= link_to controller:"admin", action:"banuser", id:user.id do %><button >Ban User</button>
+
+            <% end %>
+            </td>
+        </tr>
+
+        <tr>
+          <td colspan="2">
+            <div style="border-style: solid; border-color: black;">
+            <a href="/admin/makeadmin/?id=<%= user.id%>">Make Admin</a>
+          </div></td>
+        </tr>
+
+        <tr><td><br/></td><td><br/></td></tr>
+        <% else %>
+  <tr>
+          <td colspan="2">
+            <%= link_to controller:"auction", action:"history", id:user.id do %><button >Auction History</button>
+
+            <% end %>
+            </td>
+        </tr>
+
+      <% end %>
+
+    </table>
+  </center>
+</div>
+
+<% if @pro.size > 0 %>
+  <br/>
+
+  <div class="card1" style="width: 80%">
+    <center>
+      <h2 style="text-align:center"><a href="/product/">Your Products</a></h2>
+    </center>
+  </div>
+<% else %>
+<center>
+    <form>
+      <center><h3>You Have Not Added Any Product Yet...!</h3></center>
+      <div style="border-style: solid; border-color: black; width: 25%;">
+        <a href="/product/create"> Add New Product</a>
+      </div><br/><br/>
+    </form>
+  </center>
+<% end %>
+</body>
+</html>

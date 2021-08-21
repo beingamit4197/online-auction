@@ -1,0 +1,276 @@
+
+
+<script type="text/javascript">
+'use strict';
+
+var countDownClock = function countDownClock() {
+  var number = arguments.length <= 0 || arguments[0] === undefined ? 100 : arguments[0];
+  var format = arguments.length <= 1 || arguments[1] === undefined ? 'seconds' : arguments[1];
+
+  var d = document;
+  var daysElement = d.querySelector('.days');
+  var hoursElement = d.querySelector('.hours');
+  var minutesElement = d.querySelector('.minutes');
+  var secondsElement = d.querySelector('.seconds');
+  var countdown = undefined;
+  convertFormat(format);
+
+  function convertFormat(format) {
+    switch (format) {
+      case 'seconds':
+        return timer(number);
+      case 'minutes':
+        return timer(number * 60);
+      case 'hours':
+        return timer(number * 60 * 60);
+      case 'days':
+        return timer(number * 60 * 60 * 24);;
+    }
+  }
+
+  function timer(seconds) {
+    var now = Date.now();
+    var then = now + seconds * 1000;
+
+    countdown = setInterval(function () {
+      var secondsLeft = Math.round((then - Date.now()) / 1000);
+
+      if (secondsLeft <= 0) {
+        clearInterval(countdown);
+        location.href
+        return;
+      };
+
+      displayTimeLeft(secondsLeft);
+    }, 1000);
+  }
+
+  function displayTimeLeft(seconds) {
+    daysElement.textContent = Math.floor(seconds / 86400);
+    hoursElement.textContent = Math.floor(seconds % 86400 / 3600);
+    minutesElement.textContent = Math.floor(seconds % 86400 % 3600 / 60);
+    secondsElement.textContent = seconds % 60 < 10 ? '0' + seconds % 60 : seconds % 60;
+  }
+};
+
+
+
+function pbid()
+{
+
+var ss=$('#bidval').val();
+var bmax=$('#bidmax').val();
+var bidmin=$('#bidmin').val();
+ss=parseFloat(ss);
+bmax=parseFloat(bmax);
+bidmin=parseFloat(bidmin);  
+
+console.log(ss);
+console.log(bmax);
+console.log(bidmin);
+if(ss<=bidmin)
+{
+    alert('Bid value is less than Minimum Bid of Auction. ');
+
+}
+else if(ss<=bmax)
+{
+	   alert('Bid value is less than Currently Winning Bid. ');
+}
+else{  $.ajax({url: "/ajax/addbid.json?val="+ss, success: function(result){
+            $("#message").html(result.message);
+        }});
+        refreshbidlist();
+  }
+}
+function deletebid(x)
+{
+    $.ajax({url: "/ajax/cancelbid/"+x+".json", success: function(result){
+        $("#message").html(result.message);
+    }});
+
+
+}
+function refreshbidlist()
+{
+
+
+    $.ajax({url: "/ajax/bidlist.json", success: function(result){
+
+
+$("#bidtable tr").remove();
+$('#bi')
+
+ var markup = "<tr><th>Bid Value</th><th>Bidder</th><th>Time</th><th>Action</th></tr>";
+
+var bidder_id=<%= session[:userdata]["id"] %>
+            $("#bidtable").append(markup);
+            var i,html;
+for(i=0;i<result.length;i++)
+{
+
+if(bidder_id==result[i].bidder_id)
+{
+   html="<tr class=\"bidsame\"><td>Rs."+result[i].biding_price+"</td><td>"+result[i].name+"</td><td>"+result[i].time+"</td>";
+
+}
+else{
+   html="<tr class=\"bidother\"><td>Rs."+result[i].biding_price+"</td><td>"+result[i].name+"</td><td>"+result[i].time+"</td>";
+
+
+}
+
+if(result[0].end==0&&bidder_id==result[i].bidder_id)
+{
+ html+= "<td><div onclick=\"deletebid("+result[i].bidid+")\">Delete Bid</div></td>";
+}
+    html+="</tr>";
+     $("#bidtable").append(html);
+} 
+if(result.length!=0)
+{   
+    $('.maxbidval').html("<span class=\"spangreen\">Rs."+result[0].biding_price+"</span>")
+       $('#bname').html("<span class=\"biddertext\">"+result[0].name+"</span>")
+}
+else
+{
+  $('.maxbidval').html("<span class=\"spangreen\">No Bids Yet</span>");
+}
+    }});
+    }
+
+function startTimer(duration, display) {
+    duration=parseInt(duration,10);
+    var timer = duration, minutes, seconds;
+
+    setInterval(function () {
+       
+       var now = new Date();
+
+
+var endtime=new Date(Date.parse(<%= @endtime %>));
+        if (now.getTime()>endtime.getTime()) {
+
+            window.location.reload(true);
+    }}, 1000);
+}
+
+window.onload= function()
+{
+
+var cd=document.querySelector('#countdown');
+//startTimer(<%= @duration %>,cd);
+countDownClock(<%= @duration %>, 'seconds');
+ setInterval(refreshbidlist, 2000);
+    }
+
+
+
+</script>
+
+<h4 class="auctionheading">LIVE AUCTION</h4>
+
+<div class="auctionheading"><%= @p.name %></div>
+<div class="auctionbox">
+<div class="auctionfloat">	<div class="auctionimg"><img src="<%= @p.image %>" /></div>
+</div>
+<div class="auctiondetails auctionfloat">
+
+<span class="a-desc"><%= @p.description %></span>
+<div class="a-minbid">Minimum Bid: <span class="spangreen">Rs.<%= @p.min_bid%></span></div>
+
+<hr>
+<div class="auctionux">
+<% if @auc.status=="AUCTION_LIVE" %>
+<span style="font-style: bold;font-size: 20px">Auction Ends in <div id="countdown">
+
+    
+<span class=" timer days"></span> Days 
+<span class="timer hours"></span> Hours
+
+
+<span class="timer minutes" ></span>  Minutes
+
+<span class="timer seconds" ></span> Seconds
+<span></span>
+
+</div></p>
+</span>
+<span >Currently Winning Bid :<span class="maxbidval">"loading...<% if @bidwinval!=0 %>
+Rs. <%= @bidwinval %> </span>by <span class="maxbidname" id="bname">loading...</span>
+<% else %>
+<span class="bluespan">
+No Bids Placed.
+</span>
+<%end %>
+
+</span>
+</span>	
+    <% else %>
+       <% if @auc.status=="WINNER_DECLARED" %>
+       \ <span class="spangreen"> <%= @winner %></span><span style="font-style: bold;font-size:19px"> Won the Auction</span> <br>on Bid</span><span class="spangreen">Rs. <%= @bidwinval %> </span>
+        
+
+        <% end %>
+
+    <% end %>
+
+</div>
+</div>
+</div>
+</div>
+<center>
+<span class="spanmessage" id="message"></span>
+</center>
+
+<center>
+ <% if @auc.status=="WINNER_DECLARED" %>
+      <center>
+        
+        <h4>
+        Bid Summary
+        </h4>
+      </center>
+
+        <% end %>
+<table  id="bidtable"  class="bidtable">
+
+<tr><th>Bidder's Name</th><th>Bid Value</th><th>Time of Bid</th></tr>
+
+<% @bids.each do |x|  %>
+<tr>
+<td>
+<%= User.find(x.bidder_id).name %></td>
+<td><%= x.biding_price.to_s %></td>
+<td><%= x.time %></td>
+
+<% if x.bidder_id==session[:userdata]["id"]%>
+<td><%=   link_to "Delete Bid" ,action:"cancelbid",id:x.id %></td>
+
+<%  end  %>
+</tr>
+
+<% end %>
+</table>
+
+</center>
+<center>
+
+
+
+
+<% if @auc.status=="AUCTION_LIVE" and session[:isadmin]==0 and session[:userdata]["id"]!=@p.seller_id %>
+
+
+<input type="text" id="bidval"></input>
+
+
+<button class="bidsubmit" onclick="pbid();">Place Bid</button>
+
+<% end %>
+
+<input type="hidden"  id="bidmax" value="<%= @bidwinval %>"/>
+
+<input type="hidden"  id="bidmin" value="<%= @p.min_bid %>"/>
+
+</center>

@@ -1,0 +1,30 @@
+<center>
+	<%= form_tag(action:"login",method:"post") do %>
+		<center>
+			<table>
+				<tr>
+					<td class="tab1"><%= label_tag :email,"Email ID:" %></td>
+					<td class="tab2"><%= email_field_tag(:email) %></br></td>
+				</tr>
+
+				<tr>
+					<td class="tab1"><%= label_tag :password,"Password:" %></td>
+					<td class="tab2"><%= password_field_tag(:password) %></td>
+				</tr>
+
+				<tr><td colspan="2"><%= submit_tag("Log In") %></td></tr>
+			</table>
+
+			<div>
+				<% if @msgarr.count > 0 %>
+					<h3>Can Not Proceed Further Because Of Following Reasons :</h3>
+					<% @msgarr.each do |x| %>
+						<h4 style="color: red"><%= x %></h4>
+					<% end %>
+					<br/>
+				<% end %>
+			</div>
+
+		</center>
+	<% end %> 
+</center>

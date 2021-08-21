@@ -1,0 +1,168 @@
+<% user=@us %>
+
+<script>
+
+
+'use strict';
+
+var countDownClock = function countDownClock()
+{
+	var number = arguments.length <= 0 || arguments[0] === undefined ? 100 : arguments[0];
+	var format = arguments.length <= 1 || arguments[1] === undefined ? 'seconds' : arguments[1];
+
+	var d = document;
+	var daysElement = d.querySelector('.days');
+	var hoursElement = d.querySelector('.hours');
+	var minutesElement = d.querySelector('.minutes');
+	var secondsElement = d.querySelector('.seconds');
+	var countdown = undefined;
+
+	convertFormat(format);
+
+	function convertFormat(format)
+	{
+		switch (format)
+		{
+			case 'seconds':
+				return timer(number);
+			case 'minutes':
+				return timer(number * 60);
+			case 'hours':
+				return timer(number * 60 * 60);
+			case 'days':
+				return timer(number * 60 * 60 * 24);;
+		}
+	}
+
+	function timer(seconds)
+	{
+		var now = Date.now();
+		var then = now + seconds * 1000;
+
+		countdown = setInterval(function ()
+		{
+			var secondsLeft = Math.round((then - Date.now()) / 1000);
+			if (secondsLeft <= 0)
+			{
+				clearInterval(countdown);
+				location.href
+				return;
+			};
+
+			displayTimeLeft(secondsLeft);
+		}, 1000);
+	}
+
+	function displayTimeLeft(seconds)
+	{
+		daysElement.textContent = Math.floor(seconds / 86400);
+		hoursElement.textContent = Math.floor(seconds % 86400 / 3600);
+		minutesElement.textContent = Math.floor(seconds % 86400 % 3600 / 60);
+		secondsElement.textContent = seconds % 60 < 10 ? '0' + seconds % 60 : seconds % 60;
+	}
+};
+
+window.onload=function()
+{
+
+	jQuery('#starttime').datetimepicker({minDate:0});
+		jQuery('#endtime').datetimepicker({minDate:0}); 
+	var cd=document.querySelector('#countdown');
+	//startTimer(<%= @duration %>,cd);
+
+<% if  not @duration.nil? %>
+	countDownClock(<%= @duration %>, 'seconds');
+<% end   %>
+}
+</script>
+
+<center>
+	<h2><%= @pname %></h2>
+	<div class="img">
+		<center><img src="<%= user.image %>" style="max-height: 80%; max-width: 80%;"></center></img>
+	</div>
+	<br/><br/><br/>
+	<div class="card1" style="width: 80%;">
+		<table>
+			<% @labels.size.times do |x| %>
+			<tr>
+				<td class="tab1"><%= @labels[x] %> : </td>
+				<td class="tab2"><%= @vals[x] %></td>
+			</tr>
+		<% end %>
+
+			<tr>
+				<td>Auction Status : </td>
+				<td><%= @arrmap[@p.auction_status] %></td>
+			</tr>
+
+					<% if @p.auction_status.eql?("AUCTION_LIVE") %>
+			<tr>
+				<td>
+						Acution Ends In :
+				</td>
+				<td>
+					<span class="g days"></span> Days 
+					<span class="g hours"></span> Hours
+					<span class="g minutes" ></span>  Minutes
+					<span class="g seconds" ></span> Seconds
+				</td>
+			</tr>
+					<%elsif @p.auction_status.eql?("SCHEDULED") %>
+						<tr>
+				<td>
+						Acution Starts In :
+				</td>
+				<td>
+					<span class="g days"></span> Days 
+					<span class="g hours"></span> Hours
+					<span class="g minutes" ></span>  Minutes
+					<span class="g seconds" ></span> Seconds
+				</td>
+			</tr>
+						
+					<% end %>
+		</table>
+
+		<% if @p.auction_status.eql?("AUCTION_LIVE") %>
+			<form>
+				<center><h2><a href="/auction/show?id=<%= @p.id %>">Go to Auction Page</a></h2></center>
+			</form>
+		<% end %>
+	</div>
+
+	<br/><br/><br/>
+
+	<% if not session["userdata"].nil? and @p.seller_id==session["userdata"]["id"] %>
+		<% if  @p.auction_status.eql?("None") %>
+			<form action="/product/schedule" method="post">
+				<center>
+					<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+					<%= hidden_field_tag :id,@vals[3] %>
+					<table>
+						<tr>
+							<td><label for="starttime">Start Time </label></td>
+							<td><input id="starttime" type="text" name="starttime"/></td>
+						</tr>
+
+						<tr>
+							<td><label for="endtime">End Time </label></td>
+							<td><input id="endtime" type="text"  name="endtime"/></td>
+						</tr>
+
+						<tr>
+							<td colspan="2"><input type="submit" value="Schedule Auction"/></td>
+						</tr>
+					</table>
+				</center>
+			</form>
+		<% else %>
+			<% if @cancancel %>
+				<form>
+					<center><h2><a  href="cancel?id=<%= @vals[3] %>">Cancel Auction </a></h2></center>
+				</form>
+			<% end %>
+		<% end %>
+	<% end  %>
+</center>
+

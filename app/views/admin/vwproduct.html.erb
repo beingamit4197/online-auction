@@ -1,0 +1,31 @@
+<center>
+	<div class="card">
+		<% if @r.size > 0%>
+			<table style="margin: 25px; max-width: 100%;">
+				<tr><td colspan="5"><h2>Available Products</h2></td></tr>
+			
+				<tr>
+					<td><b><u>Image</u></b></td>
+					<td><b><u>Product Name</u></b></td>
+					<td><b><u>Description</u></b></td>
+					<td><b><u>Category</u></b></td>
+					<td><b><u>Minimum Bid</u></b></td>
+				</tr>
+
+				<% @r.each do |p| %>
+					<tr>
+						<td ><img src="<%= p.image %>" height="150" width="150" /></td>
+						<td><%= p.name %></td>
+						<td><%= p.description %></td>
+						<td><%= p.category %></td>
+						<td><%= p.min_bid %></td>
+					</tr>	
+				<% end %>
+			</table>
+		<% else %>
+			<form>
+				<center><h2>No Products Added ...!!</h2></center>
+			</form>
+		<% end %>
+	</div>
+</center>

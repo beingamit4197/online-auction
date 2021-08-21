@@ -1,0 +1,38 @@
+<br/><h2 style="text-align:center">Your Products</h2>
+<div class="card">
+<center>
+	<table>
+		<tr><td colspan="6"><br/><a href="/product/create">Add New Product</a><br/><br/></td></tr>
+
+		<tr>
+			<td><b><u>Image</u></b>	</td>
+			<td><b><u>Name</u></b></td>
+			<td><b><u>Description</u></b></td>
+			<td><b><u>Category</u></b></td>
+			<td><b><u>Minimum Bid</u></b></td>
+			<td><b><u>Actions</u></b></td>
+		</tr>
+
+		<% @r.each do |x| %>
+			<tr>
+				<td><div class="img"><img src="<%= x.image %>" height="150" width="150"></img></div></td>
+				<td><h5><%= x.name %></h5></td>
+				<td><h5><%= x.description %></td>
+				<td><h5><%= x.category%></td>
+				<td><h5>Rs. <%= x.min_bid.to_s %></td>
+				<td><h5>
+					
+					<% if x.verified_by!=-1 %>
+					<%= link_to "Manage" ,action:"show",id:x.id %></br>
+					<% end %>
+					<% if x.auction_status!="AUCTION_LIVE"%>
+					<%= link_to "Edit " ,action:"edit",id:x.id %></br>
+					
+					<%= link_to "Delete" ,action:"delete",id:x.id %>
+					<%  end  %>	
+				</h5></td>
+			</tr>
+		<% end %>
+	</table>
+	</center>
+</div>

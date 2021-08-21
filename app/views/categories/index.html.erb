@@ -1,0 +1,22 @@
+<h1>Listing categories</h1>
+ 
+<table class="table">
+  <tr>
+    <th>Name</th>
+  </tr>
+    
+ 
+  <% @category.each do |category| %>
+    <tr>
+      <td><%= category.name %></td>
+      
+      <td><%= link_to 'Destroy',action:"delete",id:category.id %></td>
+
+    </tr>
+  <% end %>
+
+
+</table>    
+<button class="btn btn-primary">send</button>
+
+<%= link_to "Add new Category",action:"new"%>
